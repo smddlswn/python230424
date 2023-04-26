@@ -1,9 +1,9 @@
-# db1.py
+# db2.py
 
 import sqlite3
 
-#연결객체를 생성(메모리에서 연습)
-con = sqlite3.connect(":memory:")
+#연결객체를 생성(물리적 파일에 저장)
+con = sqlite3.connect("c:\\work\\sample.db")
 #SQL구문을 실행할 커서객체
 cur = con.cursor()
 #테이블 구조(스키마) 생성
@@ -21,8 +21,15 @@ cur.execute("insert into PhoneBook (name, phoneNum) values " +
 datalist = (("전우치","010-333-1234"),("박문수","010-123-5678)"))
 cur.executemany("insert into PhoneBook (name, phoneNum) values " + 
             "(?,?);", datalist)
+# con.commit()
 
 #검색
 cur.execute("select * from PhoneBook;")
-for row in cur:
-    print(row)
+print("--fetchone()--")
+print(cur.fetchone())
+print("--fetchmany(2)--")
+print(cur.fetchmany())
+print("--fetchall()--")
+print(cur.fetchall())
+# 작업 정상 종료
+con.commit()
